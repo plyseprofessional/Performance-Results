@@ -334,11 +334,31 @@ const lbl = p => p<=45?'Critical Gap':p<=70?'Needs Attention':'Solid';
 const pcls = c => c==='critical'?'pc':c==='attention'?'pa':'ps';
 
 function submit() {
+  // 1. Validation Check (Your existing logic)
   if (Object.keys(SC).length < 22) {
-    const w = document.getElementById('warn'); w.style.display='block';
-    setTimeout(()=>w.style.display='none',4000); return;
+    const w = document.getElementById('warn'); 
+    w.style.display='block';
+    setTimeout(()=>w.style.display='none',4000); 
+    return;
   }
-  renderR(); showS('screen-results'); window.scrollTo(0,0);
+
+  // 2. Send data to Google Sheets
+  // REPLACE THE URL BELOW WITH YOUR ACTUAL WEB APP URL FROM GOOGLE
+  const scriptURL = "https://script.google.com/macros/s/AKfycbw2UUKYgj_jgNL7wGxzqoUe4lxu1ICkKKx7LfUUbmIW4ZQcMt5bZJ6bDRAidioudas1/exec";
+  
+  fetch(scriptURL, {
+    method: "POST",
+    mode: "no-cors",
+    cache: "no-cache",
+    body: JSON.stringify(SC) // Your script uses 'SC' to store scores
+  })
+  .then(() => console.log("Data sent to Plyse Sheets"))
+  .catch(err => console.error("Submission error:", err));
+
+  // 3. Render and Show Results (Your existing logic)
+  renderR(); 
+  showS('screen-results'); 
+  window.scrollTo(0,0);
 }
 
 function renderR() {
