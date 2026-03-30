@@ -334,6 +334,13 @@ const lbl = p => p<=45?'Critical Gap':p<=70?'Needs Attention':'Solid';
 const pcls = c => c==='critical'?'pc':c==='attention'?'pa':'ps';
 
 function submit() {
+// SEND DATA TO GOOGLE SHEETS
+  fetch(https://script.google.com/macros/s/AKfycbw2UUKYgj_jgNL7wGxzqoUe4lxu1ICkKKx7LfUUbmIW4ZQcMt5bZJ6bDRAidioudas1/exec, {
+    method: "POST",
+    mode: "no-cors", 
+    body: JSON.stringify(scores) // 'scores' is the object already in your code
+  });
+  
   if (Object.keys(SC).length < 22) {
     const w = document.getElementById('warn'); w.style.display='block';
     setTimeout(()=>w.style.display='none',4000); return;
